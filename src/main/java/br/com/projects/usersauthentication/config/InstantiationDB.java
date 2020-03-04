@@ -20,9 +20,9 @@ public class InstantiationDB implements CommandLineRunner {
 
 		userRepository.deleteAll();
 
-		User joao = new User(null, "João Silva", 30, "joao@joao.com", "123");
-		User maria = new User(null, "Maria José", 40, "maria@maria.com", "123");
-		User ana = new User(null, "Ana Maria", 50, "ana@ana.com", "123");
+		User joao = new User(null, "João Silva", 30, "joaosilva", "123");
+		User maria = new User(null, "Maria José", 40, "mariajose", "123");
+		User ana = new User(null, "Ana Maria", 50, "anamaria", "123");
 
 		userRepository.saveAll(Arrays.asList(joao, maria, ana));
 
