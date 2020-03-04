@@ -19,6 +19,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Component
@@ -31,36 +32,37 @@ public class LoginFilter implements Filter {
 
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		
-		
+
 		/*
-		 * Do not require authentication if the call is from a request from login page.    
+		 * Do not require authentication if the call is from a request from login page.
 		 */
 		if (httpRequest.getServletPath().startsWith("/api/login")) {
-			// User try to authentication
 			chain.doFilter(request, response);
 			return;
-			
+
 		}
-		
-		Cookie tokenCookie = WebUtils.getCookie(httpRequest, "token");
-		if (tokenCookie == null) {
-			httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "User without authenticated credential!!!");
-			return;
+
+		try {
+
+			Cookie tokenCookie = WebUtils.getCookie(httpRequest, "token");
+			if (tokenCookie == null) {
+				httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "User without authenticated credential!");
+				return;
+			}
+
+			String tokenJWT = tokenCookie.getValue();
+
+			DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256("ServerSecretKey")).build().verify(tokenJWT);
+
+			String userLogged = decodedJWT.getClaim("userLogged").asString();
+			httpRequest.setAttribute("userLogged", userLogged);
+
+			// Request authenticated
+			chain.doFilter(request, response);
+
+		} catch (JWTVerificationException e) {
+			httpResponse.sendError(HttpStatus.UNAUTHORIZED.value(), "Error JWT verification!!!");
 		}
-		
-		String tokenJWT = tokenCookie.getValue();
-		
-		DecodedJWT decodedJWT =  JWT.require(Algorithm.HMAC256("ServerSecretKey"))
-			.build()
-			.verify(tokenJWT);
-		
-		String userLogged = decodedJWT.getClaim("userLogged").asString();
-		httpRequest.setAttribute("userLogged", userLogged);
-		
-		// Request authenticated 
-		chain.doFilter(request, response);
-		
 	}
 
 }

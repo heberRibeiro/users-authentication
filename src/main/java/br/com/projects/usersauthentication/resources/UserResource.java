@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projects.usersauthentication.domain.User;
+import br.com.projects.usersauthentication.login.exception.InvalidCredentialException;
 import br.com.projects.usersauthentication.services.UserService;
 
 @RestController
@@ -31,7 +32,7 @@ public class UserResource {
 			@RequestAttribute("userLogged") String userLogged) {
 
 		if (!userLogin.equals(userLogged)) {
-			throw new RuntimeException("Exceção de Acesso negado!!!");
+			throw new InvalidCredentialException("Logged user does not have permission for this resource!");
 		}
 		User user = userService.findByLogin(userLogged);
 

@@ -13,6 +13,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
 import br.com.projects.usersauthentication.domain.User;
+import br.com.projects.usersauthentication.login.exception.InvalidCredentialException;
 import br.com.projects.usersauthentication.services.UserService;
 
 @RestController
@@ -27,10 +28,10 @@ public class LoginController {
 
 		User user = userService.findByLogin(credential.getLogin());
 		if (user == null) {
-			throw new RuntimeException("Invalid credentials!!!");
+			throw new InvalidCredentialException("Invalid credentials!");
 		}
 		if (!credential.getPassword().equals(user.getPassword())) {
-			throw new RuntimeException("Invalid credentials!!!");
+			throw new InvalidCredentialException("Invalid credentials!");
 		}
 
 		/*
@@ -46,7 +47,7 @@ public class LoginController {
 		Cookie cookie = new Cookie("token", jwt);
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
-		cookie.setMaxAge(60 * 240); // 45 minutes
+		cookie.setMaxAge(60 * 45); // 45 minutes
 
 		response.addCookie(cookie);
 	}
