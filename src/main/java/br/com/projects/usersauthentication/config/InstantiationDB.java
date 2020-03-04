@@ -14,18 +14,18 @@ public class InstantiationDB implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public void run(String... args) throws Exception {
-		
+
 		userRepository.deleteAll();
-		
-		User joao = new User(null, "joao@joao.com", "123");
-		User maria = new User(null, "maria@maria.com", "123");
-		User ana = new User(null, "ana@ana.com", "123");
-		
+
+		User joao = new User(null, "João Silva", 30, "joao@joao.com", "123");
+		User maria = new User(null, "Maria José", 40, "maria@maria.com", "123");
+		User ana = new User(null, "Ana Maria", 50, "ana@ana.com", "123");
+
 		userRepository.saveAll(Arrays.asList(joao, maria, ana));
-		
+
 	}
 
 }
