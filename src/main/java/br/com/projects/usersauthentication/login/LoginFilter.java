@@ -11,10 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.WebUtils;
 
 import com.auth0.jwt.JWT;
@@ -22,8 +19,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+/*
+ * We do not need this class anymore, because the spring security provides us the necessary filters
+ */
+
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class LoginFilter implements Filter {
 
 	@Override

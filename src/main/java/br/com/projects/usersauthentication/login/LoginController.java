@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -16,8 +14,12 @@ import br.com.projects.usersauthentication.domain.User;
 import br.com.projects.usersauthentication.login.exception.InvalidCredentialException;
 import br.com.projects.usersauthentication.services.UserService;
 
-@RestController
-@RequestMapping("/api/login")
+/*
+ * We do not need this class anymore, because the spring security provides us the necessary filters
+ */
+
+//@RestController
+//@RequestMapping("/api/login")
 public class LoginController {
 
 	@Autowired
