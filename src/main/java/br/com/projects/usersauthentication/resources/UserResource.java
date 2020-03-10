@@ -26,12 +26,8 @@ public class UserResource {
 	}
 
 	@GetMapping(value = "/{userLogin}")
-	public ResponseEntity<User> findUser(@PathVariable("userLogin") String userLogin/*,
-			@RequestAttribute("userLogged") String userLogged*/) {
+	public ResponseEntity<User> findUser(@PathVariable("userLogin") String userLogin) {
 
-//		if (!userLogin.equals(userLogged)) {
-//			throw new InvalidCredentialException("Logged user does not have permission for this resource!");
-//		}
 		User user = userService.findByLogin(userLogin);
 
 		return ResponseEntity.ok().body(user);

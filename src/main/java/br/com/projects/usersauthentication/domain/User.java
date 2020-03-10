@@ -58,7 +58,7 @@ public class User implements Serializable {
 		return login;
 	}
 
-	public void setLogin(String login) {
+	public void setLoginn(String login) {
 		this.login = login;
 	}
 
